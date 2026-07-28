@@ -107,10 +107,10 @@ As an example, you may use the `-Dspring.profiles.active=jdbc` VM options to sta
 
 ### Prerequisites
 The following items should be installed in your system:
-* Java 8 or newer (full JDK not a JRE)
-* Maven 3.3+ (http://maven.apache.org/install.html)
+* Java 25 or newer (full JDK not a JRE)
+* Maven 3.9+ (http://maven.apache.org/install.html)
 * git command line tool (https://help.github.com/articles/set-up-git)
-* Jetty 9.4+ or Tomcat 9+
+* Jetty 12 (EE10) or Tomcat 11+
 * Your prefered IDE 
   * Eclipse with the m2e plugin. Note: when m2e is available, there is an m2 icon in Help -> About dialog. If m2e is not there, just follow the install process here: http://www.eclipse.org/m2e/
   * [Spring Tools Suite](https://spring.io/tools) (STS)
@@ -186,7 +186,7 @@ into the [Docker Hub](https://cloud.docker.com/u/springcommunity/repository/dock
 repository.
 The [pom.xml](pom.xml) has been configured to publish the image with a the `springcommunity/spring-framework-petclinic` image name.
 
-Jib containerizes this WAR project by using the [distroless Jetty](https://github.com/GoogleContainerTools/distroless/tree/master/java/jetty) as a base image.
+Jib containerizes this WAR project by using the [Tomcat 11 image on a Java 25 runtime](https://hub.docker.com/_/tomcat) as a base image.
 
 Build and push the container image of Petclinic to the Docker Hub registry:
 ```
