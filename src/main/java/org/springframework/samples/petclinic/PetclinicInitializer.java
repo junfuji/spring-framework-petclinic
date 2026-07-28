@@ -21,8 +21,8 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractDispatcherServletInitializer;
 
-import jakarta.servlet.Filter;
-import jakarta.servlet.ServletContext;
+import javax.servlet.Filter;
+import javax.servlet.ServletContext;
 
 
 /**
