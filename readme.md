@@ -20,9 +20,12 @@ The "canonical" implementation is now based on Spring Boot, Thymeleaf and [aggre
 ```
 git clone https://github.com/spring-petclinic/spring-framework-petclinic.git
 cd spring-framework-petclinic
-./mvnw jetty:run-war
-# For Windows : ./mvnw.cmd jetty:run-war
+./mvnw clean package
+# For Windows : ./mvnw.cmd clean package
 ```
+
+Then deploy `target/petclinic.war` to a Jakarta EE 10+/11 servlet container (Tomcat 10.1+ or Tomcat 11),
+for instance by copying it to `$CATALINA_HOME/webapps/ROOT.war`.
 
 ### With Docker
 ```
@@ -48,7 +51,7 @@ To run petclinic locally using persistent database, it is needed to run with pro
 For MySQL database, it is needed to run with 'MySQL' profile defined in main pom.xml file.
 
 ```
-./mvnw jetty:run-war -P MySQL
+./mvnw clean package -P MySQL
 ```
 
 Before do this, would be good to check properties defined in MySQL profile inside pom.xml file.
@@ -72,7 +75,7 @@ docker run -e MYSQL_USER=petclinic -e MYSQL_PASSWORD=petclinic -e MYSQL_ROOT_PAS
 For PostgreSQL database, it is needed to run with 'PostgreSQL' profile defined in main pom.xml file.
 
 ```
-./mvnw jetty:run-war -P PostgreSQL
+./mvnw clean package -P PostgreSQL
 ```
 
 Before do this, would be good to check properties defined in PostgreSQL profile inside pom.xml file.
@@ -99,7 +102,8 @@ The default JPA implementation could be changed by using a Spring profile: `jdbc
 As an example, you may use the `-Dspring.profiles.active=jdbc` VM options to start the application with the JDBC implementation.
 
 ```
-./mvnw jetty:run-war -Dspring.profiles.active=jdbc
+# pass the profile to the servlet container, e.g.
+CATALINA_OPTS=-Dspring.profiles.active=jdbc $CATALINA_HOME/bin/catalina.sh run
 ```
 
 
@@ -107,10 +111,10 @@ As an example, you may use the `-Dspring.profiles.active=jdbc` VM options to sta
 
 ### Prerequisites
 The following items should be installed in your system:
-* Java 8 or newer (full JDK not a JRE)
-* Maven 3.3+ (http://maven.apache.org/install.html)
+* Java 25 (full JDK not a JRE)
+* Maven 3.6.3+ (http://maven.apache.org/install.html)
 * git command line tool (https://help.github.com/articles/set-up-git)
-* Jetty 9.4+ or Tomcat 9+
+* Tomcat 10.1+ or Tomcat 11 (Jakarta Servlet 6.x)
 * Your prefered IDE 
   * Eclipse with the m2e plugin. Note: when m2e is available, there is an m2 icon in Help -> About dialog. If m2e is not there, just follow the install process here: http://www.eclipse.org/m2e/
   * [Spring Tools Suite](https://spring.io/tools) (STS)
@@ -129,7 +133,7 @@ git clone https://github.com/spring-petclinic/spring-framework-petclinic.git
 File -> Import -> Maven -> Existing Maven project
 ```
 Then either build on the command line `./mvnw generate-resources` or using the Eclipse launcher (right click on project and `Run As -> Maven install`) to generate the CSS.
-Configure a Jetty or a Tomcat web container then deploy the `spring-petclinic.war` file.
+Configure a Tomcat 10.1+/11 web container then deploy the `spring-petclinic.war` file.
 
 3) Inside IntelliJ IDEA
 
@@ -138,7 +142,7 @@ In the main menu, select `File > Open` and select the Petclinic [pom.xml](pom.
 CSS files are generated from the Maven build. You can either build them on the command line `./mvnw generate-resources` 
 or right click on the `spring-petclinic` project then `Maven -> Generates sources and Update Folders`.
 
-Go to the `Run -> Edit Configuration` then configure a Tomcat or a Jetty web container. Deploy the `spring-petclinic.war` file.
+Go to the `Run -> Edit Configuration` then configure a Tomcat 10.1+/11 web container. Deploy the `spring-petclinic.war` file.
 Run the application by clicking on the `Run` icon.
 
 
@@ -186,7 +190,7 @@ into the [Docker Hub](https://cloud.docker.com/u/springcommunity/repository/dock
 repository.
 The [pom.xml](pom.xml) has been configured to publish the image with a the `springcommunity/spring-framework-petclinic` image name.
 
-Jib containerizes this WAR project by using the [distroless Jetty](https://github.com/GoogleContainerTools/distroless/tree/master/java/jetty) as a base image.
+Jib containerizes this WAR project by using the official `tomcat:11.0-jre25-temurin` image as a base image.
 
 Build and push the container image of Petclinic to the Docker Hub registry:
 ```
