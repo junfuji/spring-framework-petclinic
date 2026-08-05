@@ -5,8 +5,6 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-    <bean class="org.mockito.Mockito" factory-method="mock">
-        <constructor-arg value="org.springframework.samples.petclinic.service.ClinicService"/>
-    </bean>
+    <bean class="org.springframework.samples.petclinic.service.ClinicServiceMockFactory" factory-method="createMock"/>
 
 </beans>
